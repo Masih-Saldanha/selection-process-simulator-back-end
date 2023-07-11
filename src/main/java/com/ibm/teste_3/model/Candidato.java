@@ -19,17 +19,21 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Candidato {
   public Candidato(CandidatoDTO data) {
+    // this.codCandidato = data.codCandidato();
     this.nome = data.nome();
     this.status = data.status();
   }
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long codCandidato;
+  private Long id;
 
-  @Column(nullable = false)
+  // @Column(nullable = false)
+  // private int codCandidato;
+
+  // @Column(nullable = false)
   private String nome;
 
-  @Column(nullable = false)
+  // @Column(nullable = false)
   private StatusCandidato status;
 }
