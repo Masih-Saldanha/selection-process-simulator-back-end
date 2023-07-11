@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ibm.teste_3.dto.CandidatoDTO;
+import com.ibm.teste_3.excepetion.CandidatoConflictException;
+import com.ibm.teste_3.excepetion.CandidatoNotFoundException;
 import com.ibm.teste_3.model.Candidato;
 import com.ibm.teste_3.model.StatusCandidato;
 import com.ibm.teste_3.repository.CandidatoRepository;
@@ -41,7 +43,7 @@ public class CandidatoService {
     Candidato jaParticipa = buscarCandidatoPorNome(nome);
     if (jaParticipa != null || nome.isBlank()) {
       // TODO: Talvez precise de alteração
-      throw new RuntimeException("Candidato já participa do processo.");
+      throw new CandidatoConflictException("Candidato já participa do processo.");
     } else {
       CandidatoDTO candidatoDTO = new CandidatoDTO(nome, StatusCandidato.Recebido);
       int idNumber = repository.save(new Candidato(candidatoDTO)).getCodCandidato().intValue();
@@ -59,7 +61,7 @@ public class CandidatoService {
       });
     } else {
       // TODO: Talvez precise de alteração
-      throw new RuntimeException("Candidato não encontrado");
+      throw new CandidatoNotFoundException("Candidato não encontrado");
     }
   }
 
@@ -70,7 +72,7 @@ public class CandidatoService {
       repository.deleteById((long) codCandidato);
     } else {
       // TODO: Talvez precise de alteração
-      throw new RuntimeException("Candidato não encontrado");
+      throw new CandidatoNotFoundException("Candidato não encontrado");
     }
   }
 
@@ -84,7 +86,7 @@ public class CandidatoService {
       });
     } else {
       // TODO: Talvez precise de alteração
-      throw new RuntimeException("Candidato não encontrado");
+      throw new CandidatoNotFoundException("Candidato não encontrado");
     }
   }
 
@@ -95,7 +97,7 @@ public class CandidatoService {
       return candidato.getStatus().toString();
     } else {
       // TODO: Talvez precise de alteração
-      throw new RuntimeException("Candidato não encontrado");
+      throw new CandidatoNotFoundException("Candidato não encontrado");
     }
   }
 
