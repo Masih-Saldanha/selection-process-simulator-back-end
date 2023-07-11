@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.ibm.teste_3.dto.CandidatoDTO;
@@ -19,7 +16,7 @@ public class CandidatoService {
   @Autowired
   private CandidatoRepository repository;
 
-  public Candidato buscarCandidatoPorNome(String nome) {
+  private Candidato buscarCandidatoPorNome(String nome) {
     List<Candidato> candidatos = repository.findAll();
     for (Candidato candidato : candidatos) {
       if (candidato.getNome().equals(nome)) {
@@ -29,10 +26,10 @@ public class CandidatoService {
     return null;
   }
 
-  public Candidato buscarCandidatoPorCodigo(int codCandidato) {
+  private Candidato buscarCandidatoPorCodigo(int codCandidato) {
     List<Candidato> candidatos = repository.findAll();
     for (Candidato candidato : candidatos) {
-      if (candidato.getId().intValue() == codCandidato) {
+      if (candidato.getCodCandidato().intValue() == codCandidato) {
         return candidato;
       }
     }
@@ -47,7 +44,7 @@ public class CandidatoService {
       throw new RuntimeException("Candidato já participa do processo.");
     } else {
       CandidatoDTO candidatoDTO = new CandidatoDTO(nome, StatusCandidato.Recebido);
-      int idNumber = repository.save(new Candidato(candidatoDTO)).getId().intValue();
+      int idNumber = repository.save(new Candidato(candidatoDTO)).getCodCandidato().intValue();
       return idNumber;
     }
   }
@@ -72,6 +69,7 @@ public class CandidatoService {
     if (candidato != null) {
       repository.deleteById((long) codCandidato);
     } else {
+      // TODO: Talvez precise de alteração
       throw new RuntimeException("Candidato não encontrado");
     }
   }
@@ -85,6 +83,7 @@ public class CandidatoService {
         return repository.save(c);
       });
     } else {
+      // TODO: Talvez precise de alteração
       throw new RuntimeException("Candidato não encontrado");
     }
   }
@@ -95,6 +94,7 @@ public class CandidatoService {
     if (candidato != null) {
       return candidato.getStatus().toString();
     } else {
+      // TODO: Talvez precise de alteração
       throw new RuntimeException("Candidato não encontrado");
     }
   }
@@ -106,17 +106,10 @@ public class CandidatoService {
     candidatos.forEach(candidato -> {
       aprovados.add(candidato.getNome());
     });
-    // List<Candidato> candidatos = repository.findAll();
-    // candidatos.forEach(candidato -> {
-    // if (candidato.getStatus() == StatusCandidato.Aprovado) {
-    // aprovados.add(candidato.getNome());
-    // }
-    // });
     return aprovados;
   }
 
   public List<Candidato> test() {
-    List<Candidato> lista = repository.findAll();
-    return lista;
+    return repository.findAll();
   }
 }

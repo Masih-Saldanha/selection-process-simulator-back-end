@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,21 +20,18 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Candidato {
   public Candidato(CandidatoDTO data) {
-    // this.codCandidato = data.codCandidato();
     this.nome = data.nome();
     this.status = data.status();
   }
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long id;
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "candidato_sequence")
+  @SequenceGenerator(name = "candidato_sequence", sequenceName = "candidato_seq", allocationSize = 1, initialValue = 1000)
+  private Long codCandidato;
 
-  // @Column(nullable = false)
-  // private int codCandidato;
-
-  // @Column(nullable = false)
+  @Column(nullable = false)
   private String nome;
 
-  // @Column(nullable = false)
+  @Column(nullable = false)
   private StatusCandidato status;
 }
