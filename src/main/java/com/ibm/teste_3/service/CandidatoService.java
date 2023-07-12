@@ -42,7 +42,6 @@ public class CandidatoService {
   public int iniciarProcesso(String nome) {
     Candidato jaParticipa = buscarCandidatoPorNome(nome);
     if (jaParticipa != null || nome.isBlank()) {
-      // TODO: Talvez precise de alteração
       throw new CandidatoConflictException("Candidato já participa do processo.");
     } else {
       CandidatoDTO candidatoDTO = new CandidatoDTO(nome, StatusCandidato.Recebido);
@@ -60,7 +59,6 @@ public class CandidatoService {
         return repository.save(c);
       });
     } else {
-      // TODO: Talvez precise de alteração
       throw new CandidatoNotFoundException("Candidato não encontrado");
     }
   }
@@ -71,7 +69,6 @@ public class CandidatoService {
     if (candidato != null) {
       repository.deleteById((long) codCandidato);
     } else {
-      // TODO: Talvez precise de alteração
       throw new CandidatoNotFoundException("Candidato não encontrado");
     }
   }
@@ -85,7 +82,6 @@ public class CandidatoService {
         return repository.save(c);
       });
     } else {
-      // TODO: Talvez precise de alteração
       throw new CandidatoNotFoundException("Candidato não encontrado");
     }
   }
@@ -96,7 +92,6 @@ public class CandidatoService {
     if (candidato != null) {
       return candidato.getStatus().toString();
     } else {
-      // TODO: Talvez precise de alteração
       throw new CandidatoNotFoundException("Candidato não encontrado");
     }
   }
